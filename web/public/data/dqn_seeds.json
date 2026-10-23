@@ -1,0 +1,42 @@
+[
+ {
+  "seed": 0,
+  "solved_at": 526,
+  "eval_mean": 160.89040559792141,
+  "eval_std": 79.60918714988482,
+  "landing_rate": 0.55,
+  "mean_steps": 631.35,
+  "timeouts": 7,
+  "train_time_s": 128.4
+ },
+ {
+  "seed": 1,
+  "solved_at": 500,
+  "eval_mean": 196.50497009011792,
+  "eval_std": 89.29874022819413,
+  "landing_rate": 0.9,
+  "mean_steps": 458.8,
+  "timeouts": 1,
+  "train_time_s": 128.9
+ },
+ {
+  "seed": 2,
+  "solved_at": 570,
+  "eval_mean": 215.70246833562047,
+  "eval_std": 44.325537690248645,
+  "landing_rate": 0.9,
+  "mean_steps": 462.1,
+  "timeouts": 2,
+  "train_time_s": 148.7
+ },
+ {
+  "seed": 3,
+  "solved_at": 478,
+  "eval_mean": 199.72922753740414,
+  "eval_std": 75.1501487346548,
+  "landing_rate": 0.85,
+  "mean_steps": 459.1,
+  "timeouts": 2,
+  "train_time_s": 125.4
+ }
+]
