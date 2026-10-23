@@ -1,0 +1,142 @@
+@import 'tailwindcss';
+
+/* Fuentes autoalojadas (subconjunto latin) y precargadas desde index.html */
+@font-face {
+  font-family: 'Bebas Neue';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/practiva7inteligente/fonts/bebas-neue-latin-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter Variable';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/practiva7inteligente/fonts/inter-latin-wght.woff2') format('woff2-variations');
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-display: 'Bebas Neue', 'Impact', 'Arial Narrow', sans-serif;
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --color-navy-950: #061226;
+  --color-navy-900: #0b1f3a;
+  --color-navy-800: #122b4f;
+  --color-navy-700: #1b3a66;
+  --color-navy-600: #2a4f86;
+  --color-gold-300: #ffe680;
+  --color-gold-400: #ffdc33;
+  --color-gold-500: #ffd200;
+  --color-gold-600: #e0b800;
+  --color-cream-50: #fffbeb;
+  --color-cream-100: #fff6d5;
+  --color-cream-200: #f6e9b8;
+}
+
+:root {
+  color-scheme: dark;
+  --bg: #0b1f3a;
+  --bg-elev: #122b4f;
+  --fg: #fff6d5;
+  --fg-muted: #d6dcea;
+  --accent: #ffd200;
+  --line: rgba(255, 210, 0, 0.25);
+}
+
+html:not(.dark) {
+  color-scheme: light;
+  --bg: #fffbeb;
+  --bg-elev: #ffffff;
+  --fg: #0b1f3a;
+  --fg-muted: #33445f;
+  --accent: #0b1f3a;
+  --line: rgba(11, 31, 58, 0.2);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Franjas tipo jersey */
+.jersey-stripes {
+  background-image: repeating-linear-gradient(
+    115deg,
+    rgba(255, 210, 0, 0.07) 0 22px,
+    transparent 22px 64px
+  );
+}
+
+/* Textura de cancha: líneas de cal sobre el fondo */
+.pitch-texture {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+html:not(.dark) .pitch-texture {
+  background-image:
+    linear-gradient(rgba(11, 31, 58, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(11, 31, 58, 0.05) 1px, transparent 1px);
+}
+
+.card {
+  min-width: 0;
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+}
+
+.prose-rl p {
+  margin-block: 0.85rem;
+  line-height: 1.7;
+  color: var(--fg-muted);
+}
+.prose-rl strong {
+  color: var(--fg);
+}
+.prose-rl ul {
+  list-style: disc;
+  padding-left: 1.4rem;
+  color: var(--fg-muted);
+}
+.prose-rl li {
+  margin-block: 0.35rem;
+  line-height: 1.6;
+}
+.prose-rl a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.katex-display {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-block: 0.4rem;
+}
+
+:focus-visible {
+  outline: 3px solid #ffd200;
+  outline-offset: 2px;
+}
+
+input[type='range'] {
+  accent-color: #ffd200;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
