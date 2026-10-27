@@ -387,8 +387,9 @@ export function FuelSection({ dqn, nofuel }: { dqn: DqnData | null; nofuel: DqnD
 export function ScalabilitySection({ dqn }: { dqn: DqnData | null }) {
   const params = dqn?.config.n_params ?? 18180
   const netBytes = params * 4
+  // bytes = estados x 4 acciones x 4 B (float32)
   const full = 20 ** 8 * 4 * 4
-  const legs = 20 ** 6 * 4 * 4
+  const legs = 20 ** 6 * 2 ** 2 * 4 * 4
   const data = useCallback(
     () => [
       {
