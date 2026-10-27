@@ -140,3 +140,44 @@ input[type='range'] {
     scroll-behavior: auto;
   }
 }
+
+/* Juegos 3D */
+.game-wrap:fullscreen {
+  display: flex;
+  flex-direction: column;
+  border-radius: 0;
+}
+.game-wrap:fullscreen > .relative {
+  flex: 1;
+  height: auto;
+}
+@keyframes banner-pop {
+  0% { transform: scale(0.3) rotate(-6deg); opacity: 0; }
+  18% { transform: scale(1.12) rotate(2deg); opacity: 1; }
+  30% { transform: scale(1) rotate(0); }
+  85% { opacity: 1; }
+  100% { transform: scale(1.05); opacity: 0; }
+}
+.banner-pop {
+  animation: banner-pop 1.8s ease-out forwards;
+}
+@keyframes start-pulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 210, 0, 0.6); }
+  50% { transform: scale(1.06); box-shadow: 0 0 0 14px rgba(255, 210, 0, 0); }
+}
+.start-pulse {
+  animation: start-pulse 1.6s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .banner-pop, .start-pulse { animation: none; }
+}
+@keyframes banner-in {
+  from { transform: scale(0.6); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.banner-in {
+  animation: banner-in 0.35s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .banner-in { animation: none; }
+}
