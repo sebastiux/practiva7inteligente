@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react'
 
 export interface NavItem {
   id: string
-  n: number
+  n: number | string
   title: string
 }
 

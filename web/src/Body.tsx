@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
+import { GridGameBlock, LunarGameBlock } from './components/GameSection'
 import { Deferred } from './components/Layout'
+import { PortValidation } from './components/PortValidation'
 import { useJson, type DqnData, type TabularData } from './data'
 import {
   ConclusionsSection, DqnCurveSection, DqnTheorySection, FuelSection, ScalabilitySection, type SeedRow,
@@ -26,6 +28,9 @@ export default function Body({ tab, dqn, onReady }: { tab: TabularData | null; d
       <Deferred id="pseudocodigo" minHeight={1700}>
         <PseudocodeSection />
       </Deferred>
+      <Deferred id="juego-contrabandista" minHeight={1100}>
+        <GridGameBlock tab={tab} />
+      </Deferred>
       <Deferred id="convergencia" minHeight={1500}>
         <ConvergenceSection data={tab} />
       </Deferred>
@@ -40,6 +45,11 @@ export default function Body({ tab, dqn, onReady }: { tab: TabularData | null; d
       </Deferred>
       <Deferred id="dqn-curva" minHeight={2000}>
         <DqnCurveSection dqn={dqn} seeds={seeds} />
+      </Deferred>
+      <Deferred id="juego-alunizaje" minHeight={1100}>
+        <LunarGameBlock>
+          <PortValidation />
+        </LunarGameBlock>
       </Deferred>
       <Deferred id="dqn-combustible" minHeight={1800}>
         <FuelSection dqn={dqn} nofuel={nofuel} />

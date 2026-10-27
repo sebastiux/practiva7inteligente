@@ -1,7 +1,6 @@
 import { useCallback, useMemo, useState } from 'react'
 import { GridView } from '../components/GridView'
 import { Callout, Section, Stat } from '../components/Layout'
-import { Playground } from '../components/Playground'
 import { BLUE_GOLD, GOLD, Plot, SKY } from '../components/Plot'
 import { Tex } from '../components/Tex'
 import { fmt, pct, type AlgoResult, type TabularData } from '../data'
@@ -260,18 +259,9 @@ export function PseudocodeSection() {
       </div>
       <p>
         La implementación real está en <code>python/agents.py</code> (clase <code>AgenteRL</code>, configurable con{' '}
-        <code>algo="sarsa" | "qlearning"</code>). Abajo está su port a TypeScript en <code>web/src/rl/</code>.
+        <code>algo="sarsa" | "qlearning"</code>). Su port a TypeScript (<code>web/src/rl/</code>) mueve el juego 3D de la
+        siguiente sección: <a href="#juego-contrabandista">ve a jugar</a>.
       </p>
-      <h3 id="interactivo" className="mt-10 scroll-mt-20 font-display text-3xl tracking-wide">
-        Modo interactivo: entrena en tu navegador
-      </h3>
-      <p>
-        Entrena al agente en vivo, cambia los hiperparámetros mientras aprende, edita la cancha y mira una jugada. Prueba
-        poner ε en 0.3 con Q-learning y verás cuántas tarjetas rojas cuesta la ruta por la brecha.
-      </p>
-      <div className="not-prose card mt-4 p-4">
-        <Playground />
-      </div>
     </Section>
   )
 }

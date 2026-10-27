@@ -459,6 +459,7 @@ export function ConclusionsSection() {
     ['dqn.json', 'DQN: recompensa, media móvil, ε por episodio y evaluación greedy'],
     ['dqn_nofuel.json', 'Variante DQN sin costo de combustible'],
     ['dqn_seeds.json', 'Resumen DQN con 4 semillas'],
+    ['lunar_validation.json', 'Port de LunarLander: Python vs navegador'],
   ]
   return (
     <Section id="conclusiones" n={12} title="Conclusiones" kicker="El silbatazo final">

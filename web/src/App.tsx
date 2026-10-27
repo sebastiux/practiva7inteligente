@@ -11,12 +11,14 @@ const NAV: NavItem[] = [
   { id: 'intro', n: 1, title: 'Intro y objetivos' },
   { id: 'mdp', n: 2, title: 'Modelado del MDP' },
   { id: 'ecuaciones', n: 3, title: 'Ecuaciones' },
-  { id: 'pseudocodigo', n: 4, title: 'Pseudocódigo + modo interactivo' },
+  { id: 'pseudocodigo', n: 4, title: 'Pseudocódigo' },
+  { id: 'juego-contrabandista', n: '🎮', title: 'Juego 1 · Paso del Contrabandista 3D' },
   { id: 'convergencia', n: 5, title: 'Entregable 1 · Convergencia' },
   { id: 'heatmaps', n: 6, title: 'Entregable 2 · Mapas de calor' },
   { id: 'robotica', n: 7, title: 'Entregable 3 · Robótica real' },
   { id: 'dqn-teoria', n: 8, title: 'DQN · Teoría' },
   { id: 'dqn-curva', n: 9, title: 'DQN 1 · Curva de aprendizaje' },
+  { id: 'juego-alunizaje', n: '🎮', title: 'Juego 2 · Alunizaje DQN 3D' },
   { id: 'dqn-combustible', n: 10, title: 'DQN 2 · Combustible' },
   { id: 'escalabilidad', n: 11, title: 'DQN 3 · Escalabilidad' },
   { id: 'conclusiones', n: 12, title: 'Conclusiones y datos' },
@@ -54,6 +56,14 @@ function Hero({ tab, dqn }: { tab: TabularData | null; dqn: DqnData | null }) {
               </div>
             ))}
           </dl>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <a href="#juego-contrabandista" className="rounded-xl bg-gold-500 px-5 py-2.5 font-display text-xl tracking-wider text-navy-900 shadow-lg hover:bg-gold-400">
+              ⚽ Jugar: Paso del Contrabandista 3D
+            </a>
+            <a href="#juego-alunizaje" className="rounded-xl border border-gold-500 px-5 py-2.5 font-display text-xl tracking-wider text-[var(--accent)] hover:bg-gold-500/10">
+              🚀 Jugar: Alunizaje DQN
+            </a>
+          </div>
         </div>
         <Eagle className="mx-auto w-48 drop-shadow-[0_10px_30px_rgba(255,210,0,0.25)] md:w-72" />
       </div>
@@ -80,12 +90,13 @@ export default function App() {
       <div className="sticky top-0 z-30 flex items-center justify-between gap-3 border-b border-[var(--line)] bg-[var(--bg)]/90 px-4 py-2 backdrop-blur lg:hidden">
         <details className="relative">
           <summary className="cursor-pointer list-none rounded-lg border border-[var(--line)] px-3 py-1.5 text-sm font-semibold">
-            ☰ {NAV.find((n) => n.id === active)?.n}. {NAV.find((n) => n.id === active)?.title}
+            ☰ {NAV.find((n) => n.id === active)?.title}
           </summary>
           <nav aria-label="Secciones" className="card absolute left-0 mt-2 w-72 p-2 shadow-xl">
             {NAV.map((n) => (
               <a key={n.id} href={`#${n.id}`} className="block rounded px-2 py-1.5 text-sm hover:bg-[var(--bg)]">
-                {n.n}. {n.title}
+                {typeof n.n === 'number' ? `${n.n}. ` : `${n.n} `}
+                {n.title}
               </a>
             ))}
           </nav>
