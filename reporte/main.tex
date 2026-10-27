@@ -946,35 +946,42 @@ red entrenada en Python se comporta igual en el navegador.
 
 \section{Conclusiones}
 
-\begin{enumerate}
-    \item Se modeló la navegación del robot como un MDP de $400$ estados y $8$
-    acciones con resbalamiento, y se diseñó el mapa \emph{El Paso del
-    Contrabandista}, con una brecha diagonal de una celda y un rodeo seguro.
-    \item Durante el entrenamiento, SARSA converge a una recompensa más alta
-    ($72.7 \pm 3.3$ contra $62.3 \pm 8.5$) porque considera la exploración en su
-    blanco TD. Q-learning aprende el camino óptimo pero cae más con
-    $\varepsilon$: $10.2\%$ de choques contra $1.1\%$.
-    \item Se verificó la hipótesis de los mapas de calor: Q-learning corta por la
-    brecha en el $74\%$ de los episodios, mientras que SARSA la rodea con un
-    colchón de seguridad.
-    \item Para un robot costoso entre personas se recomienda SARSA por su
-    aversión al riesgo: sacrifica algo de recompensa esperada a cambio de reducir
-    mucho la probabilidad de un fallo catastrófico.
-    \item El agente DQN superó la media móvil de $+200$ en el episodio $526$ en
-    unos dos minutos de CPU, pasando por cuatro fases identificables. La
-    evaluación greedy dio $160.9 \pm 79.6$ en 20 episodios y $193.3 \pm 59.5$ en
-    100; con cuatro semillas, el promedio fue $193.2$.
-    \item La penalización por combustible induce una política eficiente; sin
-    ella, el agente duplica el uso del motor principal y su puntaje real cae de
-    $160.9$ a $128.1$.
-    \item Una tabla Q discretizada requeriría entre $4.1$~GB y $410$~GB, de
-    $5.6 \times 10^4$ a $5.6 \times 10^6$ veces más que los $18{,}180$ parámetros
-    de la red. Esto, junto con la necesidad de visitar cada celda, justifica el
-    aproximador neuronal.
-    \item Se desarrolló un sitio interactivo con despliegue automático y dos
-    juegos 3D que usan los resultados reales. En particular, la red DQN pilota en
-    el navegador sobre un port de la física validado contra Gymnasium.
-\end{enumerate}
+Los resultados del primer ejercicio coinciden con lo que anticipa la teoría. En
+\emph{El Paso del Contrabandista}, SARSA terminó el entrenamiento con más
+recompensa que Q-learning ($72.7 \pm 3.3$ contra $62.3 \pm 8.5$ en los últimos
+100 episodios) y, evaluado con $\varepsilon = 0.1$, chocó casi diez veces menos.
+Los mapas de calor muestran el porqué: Q-learning se mete por la brecha en tres
+de cada cuatro episodios, mientras que SARSA la evita y rodea la barrera por
+abajo. Al apagar la exploración la comparación se invierte y la política de
+Q-learning rinde más ($81.1$ contra $78.9$), así que ninguno de los dos
+algoritmos es mejor en todos los sentidos: la elección depende de si el agente
+va a seguir equivocándose una vez desplegado.
+
+El resultado menos esperado fue que el rodeo de SARSA no corresponde a su óptimo
+teórico. Al resolver el MDP por iteración de valor se encontró que, en este mapa,
+incluso la mejor política $\varepsilon$-greedy cruzaría la brecha. Lo observado
+se debe a la forma en que SARSA aprende: los choques de las primeras
+exploraciones hunden sus valores cerca de la barrera y, como después casi no
+vuelve a pasar por ahí, esas estimaciones no se corrigen. Para un robot costoso
+que opera entre personas esa cautela es justamente lo deseable, por lo que la
+recomendación sigue siendo SARSA, pero no debe confundirse con una garantía del
+algoritmo.
+
+En LunarLander, la red de $18{,}180$ parámetros alcanzó la media móvil de $200$
+en el episodio $526$, con unos dos minutos de entrenamiento en CPU, y en la
+curva se distinguen las etapas de exploración, \emph{hover}, aterrizajes
+inestables y convergencia. La evaluación greedy quedó por debajo del umbral
+($160.9 \pm 79.6$ en 20 episodios) porque el módulo todavía se queda flotando en
+algunos intentos, lo que indica que detener el entrenamiento justo al cruzar
+$200$ es un criterio optimista. Sin el costo de combustible el agente usó el
+doble de veces el motor principal, y la comparación de memoria, entre $4.1$ y
+$410$~GB para una tabla Q contra unos $73$~KB para la red, muestra que en un
+espacio continuo no hay alternativa práctica a aproximar la función de valor.
+
+Por último, portar la física al navegador y comprobar que la red obtiene en él
+los mismos resultados que en Gymnasium permitió convertir los experimentos en
+juegos interactivos, donde la diferencia de comportamiento entre los algoritmos
+se aprecia de forma directa.
 
 \section*{Declaración sobre el uso de inteligencia artificial}
 
@@ -990,28 +997,30 @@ los autores.
 
 \begin{itemize}
     \item Sutton, R. S., \& Barto, A. G. (2018). \emph{Reinforcement Learning: An
-    Introduction} (2a~ed.). MIT Press. Capítulo 6; ejemplo 6.6, \emph{Cliff
-    Walking}.
+    Introduction} (2a~ed.). MIT Press. Sección 6.5, ejemplo 6.6 \emph{Cliff
+    Walking}, p.~132.
     \item Watkins, C. J. C. H., \& Dayan, P. (1992). Q-learning. \emph{Machine
-    Learning}, 8(3--4), 279--292.
+    Learning}, 8(3--4), 279--292. \url{https://doi.org/10.1007/BF00992698}
     \item Rummery, G. A., \& Niranjan, M. (1994). \emph{On-line Q-learning using
-    connectionist systems} (Reporte técnico CUED/F-INFENG/TR 166). Universidad de
-    Cambridge.
+    connectionist systems} (Reporte técnico CUED/F-INFENG/TR 166). Departamento
+    de Ingeniería, Universidad de Cambridge.
     \item Lin, L.-J. (1992). Self-improving reactive agents based on reinforcement
     learning, planning and teaching. \emph{Machine Learning}, 8(3--4), 293--321.
+    \url{https://doi.org/10.1007/BF00992699}
     \item Mnih, V., Kavukcuoglu, K., Silver, D., et al. (2015). Human-level control
     through deep reinforcement learning. \emph{Nature}, 518(7540), 529--533.
-    \item Towers, M., et al. (2024). \emph{Gymnasium: A Standard Interface for
-    Reinforcement Learning Environments}. arXiv:2407.17032.
-    \url{https://gymnasium.farama.org}
-    \item Paszke, A., et al. (2019). PyTorch: An imperative style,
-    high-performance deep learning library. \emph{Advances in Neural Information
-    Processing Systems}, 32.
+    \url{https://doi.org/10.1038/nature14236}
+    \item Towers, M., Kwiatkowski, A., Terry, J., et al. (2024). \emph{Gymnasium:
+    A Standard Interface for Reinforcement Learning Environments}
+    (arXiv:2407.17032). \url{https://doi.org/10.48550/arXiv.2407.17032}
+    \item Paszke, A., Gross, S., Massa, F., et al. (2019). PyTorch: An imperative
+    style, high-performance deep learning library. En \emph{Advances in Neural
+    Information Processing Systems 32} (pp.~8026--8037).
     \item López González, A., \& Caballero Mora, J. (2026). \emph{Práctica Sarsa,
     Q-learning y Deep Q-learning} [Material del curso]. Universidad
     Iberoamericana.
-    \item Anthropic. (2026). \emph{Claude} (Opus 5) [Modelo de lenguaje de gran
-    escala]. \url{https://claude.ai}
+    \item Anthropic. (2026). \emph{Claude} [Modelo de lenguaje de gran escala].
+    \url{https://claude.ai}
 \end{itemize}
 
 \end{document}
