@@ -1,0 +1,46 @@
+{
+ "python": {
+  "gymnasium_version": "1.4.0",
+  "heuristic": {
+   "episodes": 100,
+   "mean": 252.8319837348182,
+   "std": 73.11330334606838,
+   "landing_rate": 0.95,
+   "mean_steps": 211.64
+  },
+  "dqn": {
+   "episodes": 100,
+   "mean": 193.3369834805839,
+   "std": 59.52105241804647,
+   "landing_rate": 0.77,
+   "mean_steps": 513.82
+  },
+  "dqn_nofuel": {
+   "episodes": 100,
+   "mean": 229.77450376376967,
+   "std": 80.51991847129008,
+   "landing_rate": 0.7,
+   "mean_steps": 651.62
+  }
+ },
+ "browser": {
+  "heuristic": {
+   "mean": 255.31919222150188,
+   "std": 67.77286633644594,
+   "landing_rate": 0.97,
+   "mean_steps": 232.47
+  },
+  "dqn": {
+   "mean": 196.40461793313315,
+   "std": 63.562088525646594,
+   "landing_rate": 0.76,
+   "mean_steps": 500.12
+  },
+  "dqn_nofuel": {
+   "mean": 218.96221394012747,
+   "std": 83.31259144877245,
+   "landing_rate": 0.62,
+   "mean_steps": 680.32
+  }
+ }
+}
