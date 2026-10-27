@@ -331,13 +331,17 @@ barrera). Ambas siguen la política final de la semilla 0 sin resbalones.}
 \label{fig:mapa}
 \end{figure}
 
-El mapa se ajustó para que el dilema fuera real. Con $\gamma =
-0.9$, el camino corto tiene mucho más valor descontado, pero la brecha
-multiplica el riesgo: dentro de ella, el resbalón y la exploración pueden mandar
-al robot contra la barrera. Con programación dinámica se verificó que la política
-óptima greedy (la que aprende Q-learning) cruza la brecha y que la política
-óptima $\varepsilon$-suave con $\varepsilon = 0.1$ (la que aprende SARSA) la
-rodea.
+La geometría se eligió empíricamente: se probaron varias versiones del mapa
+entrenando ambos agentes con las 5 semillas y se conservó la que separa las rutas
+de forma consistente. Como verificación, se resolvió el MDP exacto (con
+resbalamiento) por iteración de valor. La política greedy óptima cruza la
+brecha, con $V^*(A) = 29.96$ frente a $12.05$ si la brecha se cierra, lo que
+coincide con lo aprendido por Q-learning ($\max_a Q(A,a) = 28.2$ en la semilla
+0). Sin embargo, con $\gamma = 0.9$ el camino corto vale tanto que incluso la
+mejor política $\varepsilon$-greedy con $\varepsilon = 0.1$ cruzaría la brecha
+($18.4$ frente a $5.97$ por el rodeo). Es decir, el rodeo de SARSA no es su punto
+fijo asintótico, sino el resultado de su aprendizaje on-policy en $10{,}000$
+episodios; esto se discute en la Sección~\ref{sec:discusion}.
 
 \subsection{Ejemplo numérico de una actualización}
 
@@ -874,14 +878,15 @@ Las diferencias están dentro del ruido de 100 episodios, lo que confirma que la
 red entrenada en Python se comporta igual en el navegador.
 
 \section{Discusión}
+\label{sec:discusion}
 
 \begin{itemize}
     \item \textbf{On-policy frente a off-policy es una actitud ante el riesgo.}
     Con el mismo mapa, los mismos hiperparámetros y las mismas semillas, la
     única diferencia en el código es una línea (el blanco TD), y basta para que
-    los agentes elijan rutas opuestas. Q-learning aprende lo que es óptimo
-    \emph{si no hubiera errores}; SARSA, lo que es óptimo \emph{dado que sí los
-    habrá}.
+    los agentes elijan rutas opuestas. Q-learning aprende el valor de lo que
+    sería óptimo \emph{si no hubiera errores}; SARSA, el valor de lo que
+    realmente hace, \emph{errores incluidos}.
 
     \item \textbf{El ruido es lo que separa a los algoritmos.} Sin resbalón ni
     exploración, ambos convergerían a la ruta corta. El resbalón afecta a los dos
@@ -889,14 +894,28 @@ red entrenada en Python se comporta igual en el navegador.
     Por eso el mapa de calor se midió con $\varepsilon = 0.1$: con la política
     greedy pura la diferencia de riesgo casi desaparece.
 
+    \item \textbf{El rodeo de SARSA es un efecto del aprendizaje, no de su
+    óptimo asintótico.} La iteración de valor muestra que, en este mapa, incluso
+    la mejor política $\varepsilon$-greedy cruzaría la brecha ($18.4$ frente a
+    $5.97$). SARSA, en cambio, terminó con $\max_a Q(A,a) \approx 1.0$, muy
+    lejos de ese punto fijo. La razón es que los choques causados por acciones
+    exploratorias entran directamente en su blanco: en el ejemplo numérico, una
+    sola actualización bajó $Q$ de $51.54$ a $38.63$. La brecha empieza a verse
+    mala, SARSA deja de visitarla y, con $\alpha$ y $\varepsilon$ constantes, casi
+    nunca vuelve a corregir esas estimaciones. Q-learning, con el $\max$,
+    ``perdona'' las jugadas exploratorias y sí converge al óptimo greedy ($28.2$
+    frente a $29.96$). La teoría indica que, con exploración suficiente y una
+    tasa de aprendizaje decreciente, SARSA terminaría cruzando la brecha en este
+    mapa; el efecto observado es transitorio, aunque persiste durante los
+    $10{,}000$ episodios. Para un robot real esta cautela aprendida sigue siendo
+    deseable, porque no vuelve a intentar lo que le salió mal.
+
     \item \textbf{El diseño del mapa importa.} Las primeras versiones del mapa,
     con una brecha de tres celdas en diagonal, eran tan difíciles de descubrir
-    con $\varepsilon$ constante que Q-learning nunca encontraba el atajo. Se usó
-    programación dinámica para elegir una geometría donde la política óptima
-    greedy cruza la brecha y la $\varepsilon$-suave la rodea, y después se
-    comprobó con entrenamiento real en las 5 semillas. Aun así, una semilla de
-    Q-learning nunca encontró la brecha, lo que muestra la limitación de una
-    exploración $\varepsilon$-greedy sin decaimiento.
+    con $\varepsilon$ constante que Q-learning nunca encontraba el atajo. Incluso
+    en el mapa final, una semilla de Q-learning nunca encontró la brecha, lo que
+    muestra la limitación de una exploración $\varepsilon$-greedy sin
+    decaimiento.
 
     \item \textbf{El criterio de paro de DQN es engañoso.} Detener el
     entrenamiento justo al cruzar la media móvil de 200 deja una política greedy
