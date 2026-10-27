@@ -73,6 +73,12 @@
   morekeywords={self, True, False, None},
 }
 
+% Evita que un título quede al pie de página separado de su contenido
+\usepackage{needspace}
+\usepackage{etoolbox}
+\pretocmd{\section}{\Needspace{18\baselineskip}}{}{}
+\pretocmd{\subsection}{\Needspace{14\baselineskip}}{}{}
+
 \titlespacing*{\section}{0pt}{12pt}{6pt}
 \titlespacing*{\subsection}{0pt}{12pt}{6pt}
 \setlength{\parskip}{0.5em}
@@ -343,6 +349,8 @@ mejor política $\varepsilon$-greedy con $\varepsilon = 0.1$ cruzaría la brecha
 fijo asintótico, sino el resultado de su aprendizaje on-policy en $10{,}000$
 episodios; esto se discute en la Sección~\ref{sec:discusion}.
 
+% El título, su párrafo y las ecuaciones van juntos
+\Needspace{19\baselineskip}
 \subsection{Ejemplo numérico de una actualización}
 
 Con la tabla Q final de Q-learning (semilla 0), el robot está en $s = (5,9)$,
@@ -422,6 +430,7 @@ La práctica se organizó en un repositorio con dos partes:
     compilación y despliegue automático en GitHub Pages con cada \emph{push}.
 \end{itemize}
 
+\Needspace{21\baselineskip}
 \begin{lstlisting}[style=py, caption={Transición del Grid World con la regla de colisión (extracto de \texttt{gridworld.py}).}]
 def transition(self, pos, real_action, commanded):
     """Devuelve (nueva_pos, recompensa, terminal)."""
@@ -442,6 +451,7 @@ def sample_real_action(self, action):
     return (rotate(action, -1), rotate(action, 1), STAY)[k]
 \end{lstlisting}
 
+\Needspace{17\baselineskip}
 \begin{lstlisting}[style=py, caption={Blanco TD y actualización del \texttt{AgenteRL} (extracto de \texttt{agents.py}).}]
 def target(self, r, s_next, a_next, done):
     if done:
@@ -458,6 +468,7 @@ def update(self, s, a, r, s_next, a_next, done):
     return td
 \end{lstlisting}
 
+\Needspace{19\baselineskip}
 \begin{lstlisting}[style=py, caption={Paso de aprendizaje de DQN con red objetivo (extracto de \texttt{dqn\_lunar.py}).}]
 def learn(self):
     s, a, r, s2, d = self.memory.sample(self.batch, self.rng)   # Experience Replay
@@ -500,6 +511,7 @@ El sitio incluye dos juegos que usan los resultados reales de la práctica:
     instante. También se puede pilotar manualmente.
 \end{itemize}
 
+\Needspace{18\baselineskip}
 \begin{lstlisting}[style=js, caption={Evaluación de la red DQN en el navegador (extracto de \texttt{policy.ts}).}]
 qValues(obs) {
   let x = Float32Array.from(obs)
@@ -540,6 +552,8 @@ $Q(s,a)$ en vivo. Derecha: aterrizaje con $220.4$ puntos.}
 \label{fig:juego2}
 \end{figure}
 
+% Título, primer párrafo y figura de convergencia van juntos
+\Needspace{19cm}
 \section{Resultados}
 
 \subsection{Entregable 1: comparativa de convergencia}
